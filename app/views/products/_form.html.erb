@@ -1,0 +1,45 @@
+<%= form_with(model: product) do |form| %>
+  <% if product.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(product.errors.count, "error") %> prohibited this product from being saved:</h2>
+
+      <ul>
+        <% product.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <% if policy.permissions? && (current_user != @user)%>
+    <div class="field">
+      <%= form.label :price %>
+      <%= form.text_field :price %>
+    </div>
+
+    <div class="field">
+      <%= form.label :name %>
+      <%= form.text_field :name %>
+    </div>
+
+    <div class="field">
+      <%= form.label :inventory %>
+      <%= form.number_field :inventory, in: 0..Float::INFINITY %>
+    </div>
+
+    <div class="actions">
+      <%= form.submit %>
+    </div>
+<% elsif !policy.permissions? %>
+    <div class="field">
+      <%= form.label :inventory %>
+      <%= form.number_field :inventory, in: 0..Float::INFINITY %>
+    </div>
+
+    <br>
+
+    <div class="actions">
+      <%= form.submit %>
+    </div>
+  <% end %>
+<% end %>

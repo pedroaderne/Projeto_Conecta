@@ -1,0 +1,6 @@
+<h1>New Product</h1>
+<% if policy.permissions? && (current_user != @user)%>
+    <%= render 'form', product: @product %>
+
+<% end %>
+

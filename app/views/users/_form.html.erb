@@ -1,0 +1,47 @@
+<%= form_with(model: user) do |form| %>
+  <% if user.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
+
+      <ul>
+        <% user.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <% if policy.permissions? && (current_user != @user)%>
+    <div class="field">
+      <%= form.label :email %>
+      <%= form.email_field :email %>
+    </div>
+
+    <div class="field">
+      <%= form.label :password %>
+      <%= form.password_field :password %>
+    </div>
+
+    <div class="select">
+      <%= form.select(:access, [['Collaborator', 'collaborator'], ['Admin', 'admin']], {include_blank: "Select user type"}) %>
+    </div>
+    <br>
+    <input type="submit" value="Submit">
+  <% elsif (current_user == @user) %>
+    <div class="field">
+      <%= form.label :email %>
+      <%= form.email_field :email %>
+    </div>
+
+    <div class="field">
+      <%= form.label :password %>
+      <%= form.password_field :password %>
+    </div>
+
+    <br> 
+
+    <div class="actions">
+      <%= form.submit %>
+    </div>
+  <% end %>
+<% end %>
